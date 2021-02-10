@@ -68,7 +68,7 @@ if %VERBOSE% neq 0 ( @echo on )
 :: at the end the command window will close before you get a chance to read
 :: the success or failure. Setting to 1 causes a pause to hit key before
 :: end of the batch file. Default is on (1) if not defined here, off (0).
-SET PAUSE_AT_END=1
+SET PAUSE_AT_END=0
 
 :: Only referenced in this configuration section, PQXX_VERSION only matters
 :: in the configuration section of this batch file. Set the version number
@@ -282,7 +282,7 @@ SET SOURCE_DIRECTORY=libpqxx-%PQXX_VERSION%
 :: defined, this defaults to 'libpqxx'. It is always a relative
 :: subdirectory. Essential to the main operational portion of this batch
 :: file.
-SET INSTALL_SUBDIRECTORY=libpqxx\%PQXX_VERSION%%SUFFIX%
+REM SET INSTALL_SUBDIRECTORY=libpqxx\%PQXX_VERSION%%SUFFIX%
 
 :: The FINAL_INSTALL_DIRECTORY is a final installation directory for the
 :: library. This is the location you expect to use for your library
@@ -300,9 +300,9 @@ SET INSTALL_SUBDIRECTORY=libpqxx\%PQXX_VERSION%%SUFFIX%
 :: computed version of the C:\Program Files or the (x86) version directory
 :: according to platform. This will cause the batch file to ask for
 :: administrative privileges.
-SET FINAL_INSTALL_DIRECTORY=%PROGRAMFILES_CHOSEN%
+REM SET FINAL_INSTALL_DIRECTORY=%PROGRAMFILES_CHOSEN%
 REM SET FINAL_INSTALL_DIRECTORY=final_install
-
+SET FINAL_INSTALL_DIRECTORY=..
 
 REM Working directories -- Leave these alone ------------------------------
 REM                        Unless you really want them different!
@@ -937,7 +937,7 @@ echo **********************************************************************
 :: Removed xcopy  with  /c /s /e /y /i to robocopy with /MIR /R:0 
 if defined FINAL_INSTALL_DIRECTORY (
     xcopy %VERBOSE_VFLG% "%LOCAL_INSTALL%/%INSTALL_SUBDIRECTORY%" "%FINAL_INSTALL_DIRECTORY%/%INSTALL_SUBDIRECTORY%" /s /e /y /i /d
-    echo The xcopy error: !errorlevel!
+    :: echo The xcopy error: !errorlevel!
     if !errorlevel! gtr 1 goto :error
     echo:
     echo Examine above for errors...
